@@ -20,6 +20,11 @@ if (btn) {
   };
 }
 
+
+function hello() {
+  alert('Hello');
+}
+
 // This is a single line JS comment
 /*
 This is a comment that can span multiple lines 
