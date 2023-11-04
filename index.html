@@ -1,1 +1,255 @@
-Hello.
+<!DOCTYPE html>
+<html lang='ko'>
+
+<head>
+
+  <meta charset='UTF-8'>
+  <title>AI 국회</title>
+
+  <link rel="icon" href="classical-building.png" type="image/png">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <style id="INLINE_PEN_STYLESHEET_ID">
+    html, body { height: 100%; }
+body { 
+  background-color: #DFDBE5;
+  background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+input::placeholder { color: silver !important; }
+
+#list, .nav-link { cursor: pointer; } 
+
+#chat { display: none; position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+#chat:target { display: block; }
+
+.targetable-modal:target > .modal { display: block; }
+.targetable-modal:target::after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--bs-body-color-rgb), 0.5);
+    content: '';
+}
+  </style>
+
+</head>
+
+<body>
+  
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-12 col-lg-6 p-0 bg-white">
+      <div class="container-fluid d-flex flex-column h-100">
+        <header class="mt-5 mb-4 d-flex justify-content-center align-items-center"><img src="https://www.aiguke.kr/aiguke.jpg" style="width: 10rem;"/></header>
+        <div class="mb-3 mx-5" id="search_box">
+          <div class="input-group"><span class="input-group-text" style="color: silver;">
+              <svg class="bi bi-search" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg></span>
+            <input class="form-control bg-light" id="search"/>
+          </div>
+        </div>
+        <p class="text-center small text-warning text-nowrap overflow-hidden" id="notice_random">의원과 공직자들의 가상 챗봇이 매번 랜덤하게 정렬됩니다.</p>
+        <div class="flex-grow-1">
+          <table class="table mb-5">
+            <tbody id="list"></tbody>
+          </table>
+        </div>
+        <div class="row">
+          <footer class="bg-light p-3" id="footer">
+            <div class="border rounded p-3 mb-3 small"> 
+              <p class="mb-2 text-primary">주의사항</p>
+              <p class="mb-2">- "AI 국회"는 해당 정치인의 의사를 직접 반영하지 않으며, 다양한 뉴스와 자료를 학습하여 답변을 제공합니다. 따라서 AI 챗봇의 답변을 해당 정치인의 의사로 해석하거나 그와 같이 보도하거나 배포하는 것은 엄격히 금지합니다.</p>
+              <p class="mb-2">- 사용자와 AI 챗봇 간의 대화 내용은 어떠한 경우에도 서버에 저장되지 않음을 알려드립니다.</p>
+              <p class="mb-0">- AI 챗봇에게 비방이나 욕설을 사용하는 행위는 삼가해 주시고, 그런 내용을 다른 미디어에 배포하는 것도 엄격히 금지합니다.</p>
+            </div>
+            <div class="border rounded p-3 mb-3 small">
+              <p class="mb-2 text-primary">AI 국회는?</p>
+              <p class="mb-0">"AI 국회"는 ChatGPT 기술을 기반으로 한 AI 챗봇입니다. 평소 접근하기 어려웠던 정치인과 공직자들을 AI 챗봇을 통해 더 친숙하게 만나보세요.</p>
+            </div><a class="btn btn-outline-secondary btn-sm" style="border-color: lightgray; font-size: .8rem;" href="#contactus">챗봇 개설 신청</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 d-none d-lg-block p-0">
+      <iframe id="right_chat" width="100%" height="100%"></iframe>
+    </div>
+  </div>
+</div>
+<iframe id="chat" src="about:blank"></iframe>
+<div class="targetable-modal" id="contactus">
+  <div class="modal" tabindex="-1" onclick="if (event.target===this) history.back()">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">챗봇 개설 신청</div>
+        </div>
+        <div class="modal-body">
+          <p> <span>AI 챗봇 개설을 원하시는 관계자분들께서는 이메일 <a href="mailto:aiguke@rfv.kr">aiguke@rfv.kr</a> 으로 문의 바랍니다. </span></p>
+          <p>문의 주실때에는 관계자임을 확인가능한 이메일 주소를 사용하여 주시고, naver, google 등의 이메일 주소는 사용을 피해주세요.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" onclick="history.back()">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <script>
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function ce(tag='div', data={}) {
+
+  // css, fonts 주소를 바로 입력받았을 때
+  if (tag.slice(0,4)==='http') return ce('link', { href: tag, rel: 'stylesheet' });
+
+  const el = document.createElement(tag.match(/^\w+/)[0]);
+
+  if (typeof data==='function') { data(el); data = {}; }
+  if (typeof data==='string') { el.textContent = data; data = {}; }
+
+  let match;
+  if (match = tag.match(/(?<=#)\w+/)) data.id = match[0];
+  if (match = tag.match(/(?<=\.)\w+/g)) data.class = match.join(' ');
+  
+  Object.entries(data).forEach(([k,v]) => {
+    // aliases
+    if (k==='class') el.classList = v;
+    else if (k==='text') el.textContent = v;
+    else if (k==='html') el.innerHTML = v;
+    // 단순 할당이 불가한 built-in attrs
+    else if (['for'].includes(k)) el.setAttribute(k, v);
+    // 이외에는 단순 할당
+    // onchange, onclick 등의 콜백도 단순 할당한다.
+    else el[k] = v;
+  });
+
+  return el;
+}
+
+function debounce(handler, wait) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => handler(...args), wait);
+  };
+}
+
+HTMLElement.prototype.ac = function() { return this.appendChild(ce(...arguments)); };
+
+const list = {
+  rVsEMdu4B8g9wgDTZfo_A: { 
+    id: 'rVsEMdu4B8g9wgDTZfo_A',
+    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/vruZIt4nBTiWyZYP_mk2M.jpeg',
+    name: '한동훈', 
+    titles: [
+      '법무부장관',
+      '전 대검 반부패강력부장',
+    ]
+  },
+  VJBPkzcLV3nfXXENAdpFx: {
+    id: 'VJBPkzcLV3nfXXENAdpFx',
+    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/wqtHZMoZMPnnUP0KqmU06.jpeg',
+    name: '이재명',
+    titles: [
+      '더불어민주당 대표',
+      '제20대 대선 후보',
+    ],
+  },
+  dMKpqhNJwsoTEtCzcyrPw: {
+    id: 'dMKpqhNJwsoTEtCzcyrPw',
+    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/ngtN1sugQVBmTHfNrVh2k.jpeg',
+    name: '윤석열',
+    titles: [
+      '대통령'
+    ],
+  },
+  'zy5IBrGZ9M-z3fIHlnLu4': {
+    id: 'zy5IBrGZ9M-z3fIHlnLu4',
+    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/J4r0b6-cxPZHDBYJEVheV.jpeg',
+    name: '조국',
+    titles: [
+      '전 법무부장관',
+      '문재인정부 민정수석비서관'
+    ],
+  },
+};
+
+function renderList(list) {
+  window.list.innerHTML = '';
+
+  if (!list.length) {
+    return window.list.ac('tr').ac('td', {
+      text: 'No items',
+      class: 'text-center',
+    });
+  }
+  
+  for(const item of list) {
+    const $tr = window.list.ac('tr');
+
+    $tr.ac('td', { 
+        style: "width: 3rem;",
+      })
+      .ac('img', {
+        class: 'rounded-circle me2',
+        src: item.thumb,
+        style: "width: 2.5rem;",
+      });
+
+    $tr.ac('td', { text: item.name });
+
+    $tr.ac('td', { class: 'text-secondary small', html: item.titles.join('<br>') });
+    
+    $tr.onclick = () => {
+      
+      if (window.innerWidth>=992) {
+        window.right_chat.src = `https://www.chatbase.co/chatbot-iframe/`+item.id;
+      }
+      else {
+        window.chat.contentWindow.location.replace(`https://www.chatbase.co/chatbot-iframe/`+item.id);
+        window.location = '#chat';
+      }
+      
+    };
+  }
+}
+
+// iframe에 대해서 replace 해도, parent hash 때문에 이전의 히스토리가 남는다. 
+// 이 때문에 back 하는 순간 iframe back 되면서 이전 페이지를 연다. 그리고 새로운 챗 열면, 이전 챗부터 보인다.
+// 다음과 같이 강제로 초기화한다.
+window.onhashchange = event => {
+  if (event.oldURL.slice(-5)==='#chat') {
+    window.chat.contentWindow.location.replace('about:blank');
+  }
+};
+
+
+window.search.oninput = debounce(event => {
+  const search = event.target.value;
+  renderList(
+    Object.values(list).filter(item => item.name.includes(search) || item.titles.join("\n").includes(search))
+  );
+}, 500);
+
+
+const recents = localStorage.recents ? localStorage.recents.split(',') : [];
+
+renderList(shuffle(Object.values(list)));
+
+  </script>
+</body>
+
+</html>
