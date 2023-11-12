@@ -1,75 +1,9 @@
-<!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>chat</title>
 
-  <style>
-    html { font-size: 15px; }
-    html, body { margin: 0; padding: 0; min-height: 100%; }
-    body { height:100%; display: flex; flex-direction: column; }
-    .referer-warning {
-      background: black;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-      padding: 0.75em;
-      color: white;
-      text-align: center;
-      font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, system-ui, Sans-Serif;
-      line-height: 1.2;
-      font-size: 1rem;
-      position: relative;
-      z-index: 2;
-    }
-    .referer-warning span { font-family: initial; }
-    .referer-warning h1 { font-size: 1.2rem; margin: 0; }
-    .referer-warning a { color: #56bcf9; }
-  </style>
-</head>
-
-<body class="">
-  <div class="referer-warning">
-    <h1><span>⚠️</span> Do not enter passwords or personal information on this page. <span>⚠️</span></h1>
-      This is a code demo posted by a web developer on <a href="https://codepen.io">CodePen</a>.
-    <br />
-    A referer from CodePen is required to render this page view, and your browser is not sending one (<a href="https://blog.codepen.io/2017/10/05/regarding-referer-headers/" target="_blank" rel="noreferrer noopener">more details</a>).</h1>
-  </div>
-
-  <div id="result-iframe-wrap" role="main">
-    <iframe
-      id="result"
-      srcdoc="<!DOCTYPE html>
-<html lang=&quot;en&quot; >
-
-<head>
-  <meta charset=&quot;UTF-8&quot;>
-  
-
-    <link rel=&quot;apple-touch-icon&quot; type=&quot;image/png&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png&quot; />
-
-    <meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;CodePen&quot;>
-
-    <link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico&quot; />
-
-    <link rel=&quot;mask-icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg&quot; color=&quot;#111&quot; />
-
-
-
-  
-    <script src=&quot;https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js&quot;></script>
-
-
-  <title>CodePen - chat</title>
-
-    <link rel=&quot;canonical&quot; href=&quot;https://codepen.io/toonitw/pen/XWOMjmo&quot;>
-  
-  <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css&quot;>
-
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'>
-  
 <style>
 html, body {
   height: 100%;
@@ -244,36 +178,30 @@ html, body {
   }
 }
 .pic.stark {
-  background-image: url(&quot;https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png&quot;);
+  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png");
 }
 </style>
 
-  <script>
-  window.console = window.console || function(t) {};
-</script>
-
-  
-  
 </head>
 
-<body translate=&quot;no&quot;>
-  <div class=&quot;chat&quot;>
-  <div class=&quot;contact bar&quot;>
-    <div class=&quot;pic stark&quot;></div>
-    <div class=&quot;name&quot;>
+<body>
+<div class="chat">
+  <div class="contact bar">
+    <div class="pic stark"></div>
+    <div class="name">
       Tony Stark
     </div>
-    <div class=&quot;seen&quot;>
+    <div class="seen">
       Today at 12:56
     </div>
   </div>
-  <div class=&quot;messages&quot; id=&quot;chat&quot;></div>
-  <form class=&quot;input&quot; id=&quot;chatform&quot; onsubmit=&quot;send(this.msg.value); this.reset(); return false;&quot;>
-    <input autocomplete=&quot;off&quot; name=&quot;msg&quot; /><button style=&quot;background: transparent; border: 0;&quot; type=&quot;submit&quot;><i class=&quot;fas fa-paper-plane&quot;></i></button>
+  <div class="messages" id="chat"></div>
+  <form class="input" id="chatform" onsubmit="send(this.msg.value); this.reset(); return false;">
+    <input autocomplete="off" name="msg"><button style="background: transparent; border: 0;" type="submit"><i class="fas fa-paper-plane"></i></button>
   </form>
 </div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-      <script id=&quot;rendered-js&quot; >
+
+      <script>
 function ce(tag = 'div', data = {}) {
 
   // css, fonts 주소를 바로 입력받았을 때
@@ -333,13 +261,13 @@ function send(text) {
   var repeater = setInterval(scroll, 250);
 
   chatgpt(
-  () => $loading.textContent = &quot;&quot;,
+  () => $loading.textContent = "",
   delta => {
     console.log(delta);
-    if (delta.includes(&quot;\n&quot;)) {
+    if (delta.includes("\n")) {
       if (delta.length === 1) $loading.append(ce('br'));else
       $loading.append(
-      ...delta.split(&quot;\n&quot;).map((d, i) => i ? [ce('br'), d] : [d]).flat());
+      ...delta.split("\n").map((d, i) => i ? [ce('br'), d] : [d]).flat());
 
     } else
     $loading.append(delta);
@@ -349,7 +277,7 @@ function send(text) {
     clearInterval(repeater);
   },
   error => {
-    $loading.textContent = &quot;(에러: 잠시 후 다시 시도해 주세요.)&quot;;
+    $loading.textContent = "(에러: 잠시 후 다시 시도해 주세요.)";
   });
 
 
@@ -372,11 +300,11 @@ function chatgpt(onfirst, ongoing, onend, onerror) {
 
   var isStreamStarted = false;
 
-  var decoder = new TextDecoder(&quot;utf-8&quot;);
+  var decoder = new TextDecoder("utf-8");
   fetch(url, {
     method: 'POST',
     headers: {
-      &quot;Content-Type&quot;: &quot;application/json&quot; },
+      "Content-Type": "application/json" },
 
     body }).
   then(
@@ -408,19 +336,6 @@ function chatgpt(onfirst, ongoing, onend, onerror) {
   });
 
 }
-//# sourceURL=pen.js
     </script>
 
-  
-</body>
-
-</html>
-"
-      sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowTransparency="true"
-      allowpaymentrequest="true" allowfullscreen="true" class="result-iframe">
-      </iframe>
-  </div>
-
-</body>
-
-</html>
+</body></html>
