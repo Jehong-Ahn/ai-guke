@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>chat</title>
+
+  <style>
+    html { font-size: 15px; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body { height:100%; display: flex; flex-direction: column; }
+    .referer-warning {
+      background: black;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      padding: 0.75em;
+      color: white;
+      text-align: center;
+      font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, system-ui, Sans-Serif;
+      line-height: 1.2;
+      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .referer-warning span { font-family: initial; }
+    .referer-warning h1 { font-size: 1.2rem; margin: 0; }
+    .referer-warning a { color: #56bcf9; }
+  </style>
+</head>
+
+<body class="">
+  <div class="referer-warning">
+    <h1><span>⚠️</span> Do not enter passwords or personal information on this page. <span>⚠️</span></h1>
+      This is a code demo posted by a web developer on <a href="https://codepen.io">CodePen</a>.
+    <br />
+    A referer from CodePen is required to render this page view, and your browser is not sending one (<a href="https://blog.codepen.io/2017/10/05/regarding-referer-headers/" target="_blank" rel="noreferrer noopener">more details</a>).</h1>
+  </div>
+
+  <div id="result-iframe-wrap" role="main">
+    <iframe
+      id="result"
+      srcdoc="<!DOCTYPE html>
+<html lang=&quot;en&quot; >
+
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  
+
+    <link rel=&quot;apple-touch-icon&quot; type=&quot;image/png&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png&quot; />
+
+    <meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;CodePen&quot;>
+
+    <link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico&quot; />
+
+    <link rel=&quot;mask-icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg&quot; color=&quot;#111&quot; />
+
+
+
+  
+    <script src=&quot;https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js&quot;></script>
+
+
+  <title>CodePen - chat</title>
+
+    <link rel=&quot;canonical&quot; href=&quot;https://codepen.io/toonitw/pen/XWOMjmo&quot;>
+  
+  <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css&quot;>
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'>
+  
+<style>
+html, body {
+  height: 100%;
+}
+
+.pic {
+  width: 3rem;
+  height: 3rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.contact {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-left: 4rem;
+  height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact .pic {
+  position: absolute;
+  left: 0;
+}
+.contact .name {
+  font-weight: 500;
+  margin-bottom: 0.125rem;
+}
+.contact .message, .contact .seen {
+  font-size: 0.9rem;
+  color: #999;
+}
+.contact .badge {
+  box-sizing: border-box;
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  padding-top: 0.125rem;
+  border-radius: 1rem;
+  top: 0;
+  left: 2.5rem;
+  background: #333;
+  color: white;
+}
+
+.chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+}
+.chat .contact.bar {
+  flex-basis: 3.5rem;
+  margin: 1rem;
+}
+.chat .messages {
+  padding: 1rem;
+  background: #F7F7F7;
+  flex: 1;
+  overflow-y: auto;
+  box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);
+}
+.chat .messages .time {
+  font-size: 0.8rem;
+  background: #EEE;
+  padding: 0.25rem 1rem;
+  border-radius: 2rem;
+  color: #999;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+}
+.chat .messages .message {
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  background: #FFF;
+  border-radius: 1.125rem 1.125rem 1.125rem 0;
+  min-height: 2.25rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 66%;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
+}
+.chat .messages .message.me {
+  margin: 1rem 1rem 1rem auto;
+  border-radius: 1.125rem 1.125rem 0 1.125rem;
+  background: #333;
+  color: white;
+}
+.chat .messages .message .typing {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.5rem;
+  box-sizing: border-box;
+  background: #ccc;
+  border-radius: 50%;
+}
+.chat .messages .message .typing.typing-1 {
+  -webkit-animation: typing 3s infinite;
+          animation: typing 3s infinite;
+}
+.chat .messages .message .typing.typing-2 {
+  -webkit-animation: typing 3s 250ms infinite;
+          animation: typing 3s 250ms infinite;
+}
+.chat .messages .message .typing.typing-3 {
+  -webkit-animation: typing 3s 500ms infinite;
+          animation: typing 3s 500ms infinite;
+}
+.chat .input {
+  box-sizing: border-box;
+  flex-basis: 4rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem 0 1.5rem;
+}
+.chat .input i {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 200ms;
+}
+.chat .input i:hover {
+  color: #333;
+}
+.chat .input input {
+  border: none;
+  background-image: none;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  border-radius: 1.125rem;
+  flex-grow: 2;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
+  font-family: Red hat Display, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+}
+.chat .input input:placeholder {
+  color: #999;
+}
+
+@-webkit-keyframes typing {
+  0%, 75%, 100% {
+    transform: translate(0, 0.25rem) scale(0.9);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(0, -0.25rem) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes typing {
+  0%, 75%, 100% {
+    transform: translate(0, 0.25rem) scale(0.9);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(0, -0.25rem) scale(1);
+    opacity: 1;
+  }
+}
+.pic.stark {
+  background-image: url(&quot;https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png&quot;);
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate=&quot;no&quot;>
+  <div class=&quot;chat&quot;>
+  <div class=&quot;contact bar&quot;>
+    <div class=&quot;pic stark&quot;></div>
+    <div class=&quot;name&quot;>
+      Tony Stark
+    </div>
+    <div class=&quot;seen&quot;>
+      Today at 12:56
+    </div>
+  </div>
+  <div class=&quot;messages&quot; id=&quot;chat&quot;></div>
+  <form class=&quot;input&quot; id=&quot;chatform&quot; onsubmit=&quot;send(this.msg.value); this.reset(); return false;&quot;>
+    <input autocomplete=&quot;off&quot; name=&quot;msg&quot; /><button style=&quot;background: transparent; border: 0;&quot; type=&quot;submit&quot;><i class=&quot;fas fa-paper-plane&quot;></i></button>
+  </form>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+      <script id=&quot;rendered-js&quot; >
+function ce(tag = 'div', data = {}) {
+
+  // css, fonts 주소를 바로 입력받았을 때
+  if (tag.slice(0, 4) === 'http') return ce('link', { href: tag, rel: 'stylesheet' });
+
+  const el = document.createElement(tag.match(/^\w+/)[0]);
+
+  if (typeof data === 'function') {data(el);data = {};}
+  if (typeof data === 'string') {el.textContent = data;data = {};}
+
+  let match;
+  if (match = tag.match(/(?<=#)\w+/)) data.id = match[0];
+  if (match = tag.match(/(?<=\.)\w+/g)) data.class = match.join(' ');
+
+  Object.entries(data).forEach(([k, v]) => {
+    // aliases
+    if (k === 'class') el.classList = v;else
+    if (k === 'text') el.textContent = v;else
+    if (k === 'html') el.innerHTML = v;
+    // 단순 할당이 불가한 built-in attrs
+    else if (['for'].includes(k)) el.setAttribute(k, v);
+      // 이외에는 단순 할당
+      // onchange, onclick 등의 콜백도 단순 할당한다.
+      else el[k] = v;
+  });
+
+  return el;
+}
+
+function scroll() {
+  window.chat.scrollTop = window.chat.scrollHeight;
+}
+
+function add_message(user, text) {
+  window.chat.appendChild(ce('div', {
+    class: 'message ' + user,
+    text }));
+
+}
+
+function send(text) {
+
+  if (!text) return;
+
+  window.chatform.lastElementChild.disabled = true;
+
+  add_message('me', text);
+
+  var $loading = ce('div', { class: 'message opp' });
+  $loading.append(
+  ce('div', { class: 'typing typing-1' }),
+  ce('div', { class: 'typing typing-2' }),
+  ce('div', { class: 'typing typing-3' }));
+
+  window.chat.append($loading);
+
+  var repeater = setInterval(scroll, 250);
+
+  chatgpt(
+  () => $loading.textContent = &quot;&quot;,
+  delta => {
+    console.log(delta);
+    if (delta.includes(&quot;\n&quot;)) {
+      if (delta.length === 1) $loading.append(ce('br'));else
+      $loading.append(
+      ...delta.split(&quot;\n&quot;).map((d, i) => i ? [ce('br'), d] : [d]).flat());
+
+    } else
+    $loading.append(delta);
+  },
+  () => {
+    window.chatform.lastElementChild.disabled = false;
+    clearInterval(repeater);
+  },
+  error => {
+    $loading.textContent = &quot;(에러: 잠시 후 다시 시도해 주세요.)&quot;;
+  });
+
+
+}
+
+function chatgpt(onfirst, ongoing, onend, onerror) {
+
+  var url = 'https://atkg.cafe24.com/aiguke/chat';
+  var body = JSON.stringify({
+    name: '토니 스타크',
+    role: '아이언맨',
+    msgs: [...window.chat.children].
+    slice(0, -1).
+    slice(-5).
+    map(el => ({
+      role: el.classList.contains('me') ? 'user' : 'assistant',
+      content: el.textContent })) });
+
+
+
+  var isStreamStarted = false;
+
+  var decoder = new TextDecoder(&quot;utf-8&quot;);
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      &quot;Content-Type&quot;: &quot;application/json&quot; },
+
+    body }).
+  then(
+  response => {
+    const reader = response.body.getReader();
+    return reader.read().then(function process({ done, value }) {
+      if (done) {
+        return onend();
+      }
+
+      var chunk = decoder.decode(value);
+
+      if (!chunk) return;
+
+      if (!isStreamStarted) {
+        onfirst();
+        isStreamStarted = true;
+      }
+
+      ongoing(chunk);
+
+
+      return reader.read().then(process);
+    });
+  },
+  error => {
+    onend();
+    onerror(error);
+  });
+
+}
+//# sourceURL=pen.js
+    </script>
+
+  
+</body>
+
+</html>
+"
+      sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowTransparency="true"
+      allowpaymentrequest="true" allowfullscreen="true" class="result-iframe">
+      </iframe>
+  </div>
+
+</body>
+
+</html>
