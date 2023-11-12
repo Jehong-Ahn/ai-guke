@@ -78,7 +78,7 @@ input::placeholder { color: silver !important; }
       </div>
     </div>
     <div class="col-12 col-lg-6 d-none d-lg-block p-0">
-      <iframe id="right_chat" width="100%" height="100%"></iframe>
+      <iframe id="right_chat" width="100%" style="height: 100vh;"></iframe>
     </div>
   </div>
 </div>
@@ -102,7 +102,7 @@ input::placeholder { color: silver !important; }
   </div>
 </div>
   
-  <script>
+<script>
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -253,11 +253,25 @@ window.search.oninput = debounce(event => {
 }, 500);
 
 
-const recents = localStorage.recents ? localStorage.recents.split(',') : [];
-
+    
+  const queryParams = new URLSearchParams(window.location.search);
+  
+  if (queryParams.get('name')) {
+    list.push({
+      name: queryParams.get('name'),
+      titles: ['국회의원'],
+      cdn: 'glitch',
+      photo: 'default.png',
+    });
+  }
+  
+    
+    
+    
+    
 renderList(shuffle(list));
 
-  </script>
+</script>
 </body>
 
 </html>
