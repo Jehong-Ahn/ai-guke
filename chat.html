@@ -162,10 +162,11 @@ html, body {
     glitch: 'https://cdn.glitch.global/38633a2e-910e-4e93-9ba3-88a1b88b8a14/',
   };
   window.photo.style.backgroundImage = `url('${cdn[queryParams.get('cdn')]}${queryParams.get('photo')}')`;
-  document.querySelector("#name").textContent = queryParams.get('name');
+  document.querySelector("#name").textContent = "AI " + queryParams.get('name');
   window.job.textContent = queryParams.get('job');
   
-        
+  add_message('opp', `안녕하세요, 저는 ${document.querySelector("#name").textContent}입니다.`); 
+  
         
 function ce(tag = 'div', data = {}) {
 
@@ -204,7 +205,6 @@ function add_message(user, text) {
   window.chat.appendChild(ce('div', {
     class: 'message ' + user,
     text }));
-
 }
 
 function send(text) {
@@ -255,7 +255,7 @@ function chatgpt(onfirst, ongoing, onend, onerror) {
     name: queryParams.get('name'),
     role: queryParams.get('role') || queryParams.get('job'),
     msgs: [...window.chat.children].
-    slice(0, -1).
+    slice(1, -1).
     slice(-5).
     map(el => ({
       role: el.classList.contains('me') ? 'user' : 'assistant',
