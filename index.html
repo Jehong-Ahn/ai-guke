@@ -150,43 +150,48 @@ function debounce(handler, wait) {
 
 HTMLElement.prototype.ac = function() { return this.appendChild(ce(...arguments)); };
 
-const list = {
-  rVsEMdu4B8g9wgDTZfo_A: { 
-    id: 'rVsEMdu4B8g9wgDTZfo_A',
-    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/vruZIt4nBTiWyZYP_mk2M.jpeg',
+const list = [
+  { 
     name: '한동훈', 
     titles: [
       '법무부장관',
       '전 대검 반부패강력부장',
-    ]
+    ],
+    cdn: 'glitch',
+    photo: 'hdh.jpg',
   },
-  VJBPkzcLV3nfXXENAdpFx: {
-    id: 'VJBPkzcLV3nfXXENAdpFx',
-    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/wqtHZMoZMPnnUP0KqmU06.jpeg',
+  {
     name: '이재명',
     titles: [
       '더불어민주당 대표',
       '제20대 대선 후보',
     ],
+    cdn: 'glitch',
+    photo: 'ljm.jpg',
   },
-  dMKpqhNJwsoTEtCzcyrPw: {
-    id: 'dMKpqhNJwsoTEtCzcyrPw',
-    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/ngtN1sugQVBmTHfNrVh2k.jpeg',
+  {
     name: '윤석열',
     titles: [
       '대통령'
     ],
+    cdn: 'glitch',
+    photo: 'ysy.jpg',
   },
-  'zy5IBrGZ9M-z3fIHlnLu4': {
-    id: 'zy5IBrGZ9M-z3fIHlnLu4',
-    thumb: 'https://backend.chatbase.co/storage/v1/object/public/chatbots-profile-pictures/22f2799f-af80-43be-8c36-f65c87dbd643/J4r0b6-cxPZHDBYJEVheV.jpeg',
+  {
     name: '조국',
     titles: [
       '전 법무부장관',
       '문재인정부 민정수석비서관'
     ],
+    cdn: 'glitch',
+    photo: 'cg.jpg',
   },
-};
+];
+
+    
+  const cdn = {
+    glitch: 'https://cdn.glitch.global/38633a2e-910e-4e93-9ba3-88a1b88b8a14/',
+  };
 
 function renderList(list) {
   window.list.innerHTML = '';
@@ -206,7 +211,7 @@ function renderList(list) {
       })
       .ac('img', {
         class: 'rounded-circle me2',
-        src: item.thumb,
+        src: cdn[item.cdn] + item.photo,
         style: "width: 2.5rem;",
       });
 
@@ -216,11 +221,13 @@ function renderList(list) {
     
     $tr.onclick = () => {
       
+      const chatUrl = `/chat.html?name=${item.name}&job=${item.titles[0]}&cdn=${item.cdn}&photo=${item.photo}`;
+      
       if (window.innerWidth>=992) {
-        window.right_chat.src = `https://www.chatbase.co/chatbot-iframe/`+item.id;
+        window.right_chat.src = chatUrl;
       }
       else {
-        window.chat.contentWindow.location.replace(`https://www.chatbase.co/chatbot-iframe/`+item.id);
+        window.chat.contentWindow.location.replace(chatUrl);
         window.location = '#chat';
       }
       
@@ -241,14 +248,14 @@ window.onhashchange = event => {
 window.search.oninput = debounce(event => {
   const search = event.target.value;
   renderList(
-    Object.values(list).filter(item => item.name.includes(search) || item.titles.join("\n").includes(search))
+    list.filter(item => item.name.includes(search) || item.titles.join("\n").includes(search))
   );
 }, 500);
 
 
 const recents = localStorage.recents ? localStorage.recents.split(',') : [];
 
-renderList(shuffle(Object.values(list)));
+renderList(shuffle(list));
 
   </script>
 </body>
