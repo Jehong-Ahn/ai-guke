@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -7,14 +8,7 @@
 <style>
 html, body {
   height: 100%;
-}
-
-.pic {
-  width: 3rem;
-  height: 3rem;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
+  margin: 0;
 }
 
 .contact {
@@ -26,18 +20,7 @@ html, body {
   flex-direction: column;
   justify-content: center;
 }
-.contact .pic {
-  position: absolute;
-  left: 0;
-}
-.contact .name {
-  font-weight: 500;
-  margin-bottom: 0.125rem;
-}
-.contact .message, .contact .seen {
-  font-size: 0.9rem;
-  color: #999;
-}
+
 .contact .badge {
   box-sizing: border-box;
   position: absolute;
@@ -122,39 +105,6 @@ html, body {
   -webkit-animation: typing 3s 500ms infinite;
           animation: typing 3s 500ms infinite;
 }
-.chat .input {
-  box-sizing: border-box;
-  flex-basis: 4rem;
-  display: flex;
-  align-items: center;
-  padding: 0 0.5rem 0 1.5rem;
-}
-.chat .input i {
-  font-size: 1.5rem;
-  margin-right: 1rem;
-  color: #666;
-  cursor: pointer;
-  transition: color 200ms;
-}
-.chat .input i:hover {
-  color: #333;
-}
-.chat .input input {
-  border: none;
-  background-image: none;
-  background-color: white;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  border-radius: 1.125rem;
-  flex-grow: 2;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
-  font-family: Red hat Display, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.025em;
-}
-.chat .input input:placeholder {
-  color: #999;
-}
 
 @-webkit-keyframes typing {
   0%, 75%, 100% {
@@ -177,9 +127,7 @@ html, body {
     opacity: 1;
   }
 }
-.pic.stark {
-  background-image: url("https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png");
-}
+
 </style>
 
 </head>
@@ -187,21 +135,38 @@ html, body {
 <body>
 <div class="chat">
   <div class="contact bar">
-    <div class="pic stark"></div>
-    <div class="name">
-      Tony Stark
-    </div>
-    <div class="seen">
-      Today at 12:56
-    </div>
-  </div>
-  <div class="messages" id="chat"></div>
-  <form class="input" id="chatform" onsubmit="send(this.msg.value); this.reset(); return false;">
-    <input autocomplete="off" name="msg"><button style="background: transparent; border: 0;" type="submit"><i class="fas fa-paper-plane"></i></button>
-  </form>
-</div>
 
-      <script>
+    <div id="photo" style="width: 3rem; height: 3rem; background-size: cover; background-position: center; border-radius: 50%; position: absolute; left: 0;"></div>
+    
+    <div id="name" style="font-weight: bold; margin-bottom: 0.125rem;"></div>
+    
+    <div id="job" style="font-size: 0.9rem; color: #999;"></div>
+
+  </div>
+  
+  <div class="messages" id="chat"></div>
+
+  <form id="chatform" onsubmit="send(this.msg.value); this.reset(); return false;" style="box-sizing: border-box; flex-basis: 4rem; display: flex; align-items: center; padding: 0 0.5rem 0 1.5rem;">
+    <input autocomplete="off" name="msg" style="border: none; background-image: none; background-color: white; padding: 0.5rem 1rem; margin-right: 1rem; border-radius: 1.125rem; flex-grow: 2; box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);">
+    <button style="background: transparent; border: 0;" type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" height="1.1rem" viewbox="0 0 512 512" style="font-size: 1.5rem; fill: #666; margin-right: 1rem; cursor: pointer;"><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </button>
+  </form>
+
+  </div>
+
+<script>
+  
+  const queryParams = new URLSearchParams(window.location.search);
+  const cdn = {
+    glitch: 'https://cdn.glitch.global/38633a2e-910e-4e93-9ba3-88a1b88b8a14/',
+  };
+  window.photo.style.backgroundImage = `url('${cdn[queryParams.get('cdn')]}${queryParams.get('photo')}')`;
+  document.querySelector("#name").textContent = queryParams.get('name');
+  window.job.textContent = queryParams.get('job');
+  
+        
+        
 function ce(tag = 'div', data = {}) {
 
   // css, fonts 주소를 바로 입력받았을 때
@@ -287,8 +252,8 @@ function chatgpt(onfirst, ongoing, onend, onerror) {
 
   var url = 'https://atkg.cafe24.com/aiguke/chat';
   var body = JSON.stringify({
-    name: '토니 스타크',
-    role: '아이언맨',
+    name: queryParams.get('name'),
+    role: queryParams.get('role') || queryParams.get('job'),
     msgs: [...window.chat.children].
     slice(0, -1).
     slice(-5).
