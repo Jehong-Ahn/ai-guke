@@ -228,7 +228,7 @@ function send(text) {
   chatgpt(
   () => $loading.textContent = "",
   delta => {
-    console.log(delta);
+    // console.log(delta);
     if (delta.includes("\n")) {
       if (delta.length === 1) $loading.append(ce('br'));else
       $loading.append(
@@ -250,16 +250,20 @@ function send(text) {
 
 function chatgpt(onfirst, ongoing, onend, onerror) {
 
-  var url = 'https://atkg.cafe24.com/aiguke/chat';
+  var url = window.location.host === 'instinctive-cooing-sapphire.glitch.me' 
+    ? 'https://atkg.cafe24.com/aiguke/chat_'
+    : 'https://atkg.cafe24.com/aiguke/chat';
   var body = JSON.stringify({
     name: queryParams.get('name'),
     role: queryParams.get('role') || queryParams.get('job'),
+    clientKey: localStorage.clientKey,
     msgs: [...window.chat.children].
-    slice(1, -1).
-    slice(-5).
-    map(el => ({
-      role: el.classList.contains('me') ? 'user' : 'assistant',
-      content: el.textContent })) });
+      slice(1, -1).
+      slice(-5).
+      map(el => ({
+        role: el.classList.contains('me') ? 'user' : 'assistant',
+        content: el.textContent })) })
+  ;
 
 
 
