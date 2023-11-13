@@ -269,8 +269,13 @@ window.search.oninput = debounce(event => {
     
     
     
-renderList(shuffle(list));
+  renderList(shuffle(list));
 
+  
+  if (!localStorage.clientKey) localStorage.clientKey = window.crypto.randomUUID();
+  
+  
+  
 </script>
 </body>
 
