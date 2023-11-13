@@ -227,8 +227,9 @@ function renderList(list) {
         window.right_chat.src = chatUrl;
       }
       else {
-        window.chat.contentWindow.location.replace(chatUrl);
-        window.location = '#chat';
+        // window.chat.contentWindow.location.replace(chatUrl);
+        // window.location = '#chat';
+        window.location = chatUrl;
       }
       
     };
