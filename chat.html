@@ -11,60 +11,6 @@ html, body {
   margin: 0;
 }
 
-.contact {
-  position: relative;
-  margin-bottom: 1rem;
-  padding-left: 4rem;
-  height: 4.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.contact .badge {
-  box-sizing: border-box;
-  position: absolute;
-  width: 1.5rem;
-  height: 1.5rem;
-  text-align: center;
-  font-size: 0.9rem;
-  padding-top: 0.125rem;
-  border-radius: 1rem;
-  top: 0;
-  left: 2.5rem;
-  background: #333;
-  color: white;
-}
-
-.chat {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: white;
-}
-.chat .contact.bar {
-  flex-basis: 3.5rem;
-  margin: 1rem;
-}
-.chat .messages {
-  padding: 1rem;
-  background: #F7F7F7;
-  flex: 1;
-  overflow-y: auto;
-  box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);
-}
-.chat .messages .time {
-  font-size: 0.8rem;
-  background: #EEE;
-  padding: 0.25rem 1rem;
-  border-radius: 2rem;
-  color: #999;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin: 0 auto;
-}
 .chat .messages .message {
   box-sizing: border-box;
   padding: 0.5rem 1rem;
@@ -133,8 +79,9 @@ html, body {
 </head>
 
 <body>
-<div class="chat">
-  <div class="contact bar">
+<div class="chat" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: white;">
+
+  <div class="contact bar" style="flex-basis: 3.5rem; margin: 1rem; position: relative; padding-left: 4rem; height: 3.5rem; display: flex; flex-direction: column; justify-content: center;">
 
     <div id="photo" style="width: 3rem; height: 3rem; background-size: cover; background-position: center; border-radius: 50%; position: absolute; left: 0;"></div>
     
@@ -144,8 +91,14 @@ html, body {
 
   </div>
   
-  <div class="messages" id="chat"></div>
+  <div class="messages" id="chat" style="padding: 1rem; background: #F7F7F7; flex: 1; overflow-y: auto; box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);"></div>
 
+  <div id="predefined_messages" style="margin: 1rem 1rem 0 1rem; overflow-x: auto; white-space: nowrap;">
+    <style>#predefined_messages button { margin-right: .5rem; border: none; padding: .3rem .6rem; border-radius: .5rem; font-style: italic; color: gray; }</style>
+    <button>오늘의 이슈는?</button>
+    <button>총선 전망은?</button>
+  </div>
+  
   <form id="chatform" onsubmit="send(this.msg.value); this.reset(); return false;" style="box-sizing: border-box; flex-basis: 4rem; display: flex; align-items: center; padding: 0 0.5rem 0 1.5rem;">
     <input autocomplete="off" name="msg" style="border: none; background-image: none; background-color: white; padding: 0.5rem 1rem; margin-right: 1rem; border-radius: 1.125rem; flex-grow: 2; box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2), 0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);">
     <button style="background: transparent; border: 0;" type="submit">
@@ -166,6 +119,17 @@ html, body {
   window.job.textContent = queryParams.get('job');
   
   add_message('opp', `안녕하세요, 저는 ${document.querySelector("#name").textContent}입니다.`); 
+  
+  
+  for(const button of window.predefined_messages.querySelectorAll('button'))   {
+      button.onclick = () => {
+          if ( ! window.chatform.lastElementChild.disabled ) {
+            send(button.textContent);
+            button.remove();  
+          }
+          
+      };
+  }
   
         
 function ce(tag = 'div', data = {}) {
